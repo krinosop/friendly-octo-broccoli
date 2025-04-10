@@ -1,0 +1,248 @@
+{% extends 'theater/base.html' %}
+{% load static %}
+
+{% block title %}Главная - Театральная система{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --gradient-color-1: #2c0735;
+        --gradient-color-2: #590d22;
+        --gradient-color-3: #800f2f;
+        --gradient-color-4: #a4133c;
+    }
+
+    html {
+        height: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: linear-gradient(
+            -45deg,
+            var(--gradient-color-1) 0%,
+            var(--gradient-color-2) 25%,
+            var(--gradient-color-3) 50%,
+            var(--gradient-color-4) 75%,
+            var(--gradient-color-1) 100%
+        );
+        background-size: 400% 400%;
+        animation: moveGradient 15s ease infinite;
+    }
+
+    @keyframes moveGradient {
+        0% { background-position: 0 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0 50%; }
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(201, 24, 74, 0.15) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    main {
+        flex: 1;
+        padding: 0 !important;
+        position: relative;
+        z-index: 2;
+    }
+
+    .home-content {
+        min-height: calc(100vh - 180px);
+        color: white;
+        padding: 4rem 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .text-muted {
+        color: rgba(255, 255, 255, 0.95) !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-text {
+        color: #333;
+    }
+
+    .card-title {
+        color: #2c0735;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, var(--gradient-color-1), var(--gradient-color-3));
+        border: none;
+        padding: 0.7rem 1.8rem;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, var(--gradient-color-3), var(--gradient-color-1));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon-circle {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, rgba(44, 7, 53, 0.1), rgba(128, 15, 47, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card:hover .icon-circle {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, rgba(44, 7, 53, 0.2), rgba(128, 15, 47, 0.2));
+    }
+
+    .icon-circle i {
+        font-size: 2.8rem;
+        background: linear-gradient(45deg, var(--gradient-color-1), var(--gradient-color-3));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .display-4 {
+        font-weight: 600;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(45deg, #fff, #f8f9fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    footer {
+        background-color: rgba(255, 255, 255, 0.97) !important;
+        margin-top: 0 !important;
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 2;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="home-content">
+    <div class="container py-5">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h1 class="display-4 mb-4">Добро пожаловать в Театральную систему</h1>
+                <p class="lead text-muted">Система управления театральной деятельностью</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h5 class="card-title">Режиссеры</h5>
+                        <p class="card-text">Управление режиссерами театра</p>
+                        <a href="{% url 'director_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Перейти к режиссерам
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-theater-masks"></i>
+                        </div>
+                        <h5 class="card-title">Спектакли</h5>
+                        <p class="card-text">Управление спектаклями</p>
+                        <a href="{% url 'play_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Перейти к спектаклям
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h5 class="card-title">Актеры</h5>
+                        <p class="card-text">Управление актерами</p>
+                        <a href="{% url 'actor_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Перейти к актерам
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="card-title">Кастинги</h5>
+                        <p class="card-text">Управление кастингами</p>
+                        <a href="{% url 'casting_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Перейти к кастингам
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h5 class="card-title">Представления</h5>
+                        <p class="card-text">Управление представлениями</p>
+                        <a href="{% url 'performance_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i> Перейти к представлениям
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

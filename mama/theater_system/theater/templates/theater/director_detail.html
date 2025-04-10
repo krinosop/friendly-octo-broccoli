@@ -1,0 +1,68 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}{{ director.first_name }} {{ director.last_name }} - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="card-title">{{ director.first_name }} {{ director.last_name }}</h1>
+                <div>
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'director_update' director.pk %}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        <a href="{% url 'director_delete' director.pk %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Удалить
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Дата рождения:</strong> {{ director.date_of_birth|date:"d.m.Y" }}</p>
+                    <p><strong>Пол:</strong> {{ director.get_gender_display }}</p>
+                    <p><strong>Опыт работы:</strong> {{ director.years_of_experience }} лет</p>
+                    <p><strong>Контактная информация:</strong> {{ director.contact_info }}</p>
+                </div>
+                {% if director.photo %}
+                <div class="col-md-6">
+                    <img src="{{ director.photo.url }}" class="img-fluid" alt="{{ director.first_name }} {{ director.last_name }}">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Спектакли режиссера</h3>
+            {% if director.play_set.all %}
+                <div class="row">
+                    {% for play in director.play_set.all %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ play.title }}</h5>
+                                    <p class="card-text">
+                                        <strong>Жанр:</strong> {{ play.get_genre_display }}<br>
+                                        <strong>Длительность:</strong> {{ play.duration }} мин
+                                    </p>
+                                    <a href="{% url 'play_detail' play.pk %}" class="btn btn-primary">Подробнее</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>У режиссера пока нет спектаклей.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'director_list' %}" class="btn btn-secondary">Назад к списку режиссеров</a>
+</div>
+{% endblock %} 

@@ -1,0 +1,191 @@
+[
+    {
+        "model": "theater.director",
+        "pk": 1,
+        "fields": {
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "date_of_birth": "1970-01-01",
+            "gender": "M",
+            "contact_info": "ivanov@theater.ru\n+7 (999) 123-45-67",
+            "experience": 20
+        }
+    },
+    {
+        "model": "theater.director",
+        "pk": 2,
+        "fields": {
+            "first_name": "Мария",
+            "last_name": "Петрова",
+            "date_of_birth": "1980-05-15",
+            "gender": "F",
+            "contact_info": "petrova@theater.ru\n+7 (999) 765-43-21",
+            "experience": 15
+        }
+    },
+    {
+        "model": "theater.director",
+        "pk": 3,
+        "fields": {
+            "first_name": "Алексей",
+            "last_name": "Сидоров",
+            "date_of_birth": "1975-03-20",
+            "gender": "M",
+            "contact_info": "sidorov@theater.ru\n+7 (999) 111-22-33",
+            "experience": 18
+        }
+    },
+    {
+        "model": "theater.play",
+        "pk": 1,
+        "fields": {
+            "title": "Гамлет",
+            "director": 1,
+            "genre": "Трагедия",
+            "duration": "02:30:00",
+            "description": "Классическая трагедия Шекспира о принце датском"
+        }
+    },
+    {
+        "model": "theater.play",
+        "pk": 2,
+        "fields": {
+            "title": "Ревизор",
+            "director": 2,
+            "genre": "Комедия",
+            "duration": "02:00:00",
+            "description": "Комедия Гоголя о чиновниках и мнимом ревизоре"
+        }
+    },
+    {
+        "model": "theater.play",
+        "pk": 3,
+        "fields": {
+            "title": "Евгений Онегин",
+            "director": 3,
+            "genre": "Опера",
+            "duration": "03:00:00",
+            "description": "Опера по роману Пушкина"
+        }
+    },
+    {
+        "model": "theater.actor",
+        "pk": 1,
+        "fields": {
+            "first_name": "Алексей",
+            "last_name": "Смирнов",
+            "date_of_birth": "1985-03-20",
+            "contact_info": "smirnov@theater.ru\n+7 (999) 444-55-66"
+        }
+    },
+    {
+        "model": "theater.actor",
+        "pk": 2,
+        "fields": {
+            "first_name": "Елена",
+            "last_name": "Козлова",
+            "date_of_birth": "1990-07-10",
+            "contact_info": "kozlova@theater.ru\n+7 (999) 777-88-99"
+        }
+    },
+    {
+        "model": "theater.actor",
+        "pk": 3,
+        "fields": {
+            "first_name": "Дмитрий",
+            "last_name": "Попов",
+            "date_of_birth": "1988-11-25",
+            "contact_info": "popov@theater.ru\n+7 (999) 000-11-22"
+        }
+    },
+    {
+        "model": "theater.actorrole",
+        "pk": 1,
+        "fields": {
+            "actor": 1,
+            "play": 1,
+            "role_name": "Гамлет",
+            "role_info": "Главный герой трагедии, принц датский"
+        }
+    },
+    {
+        "model": "theater.actorrole",
+        "pk": 2,
+        "fields": {
+            "actor": 2,
+            "play": 2,
+            "role_name": "Городничий",
+            "role_info": "Главный герой комедии, чиновник"
+        }
+    },
+    {
+        "model": "theater.actorrole",
+        "pk": 3,
+        "fields": {
+            "actor": 3,
+            "play": 3,
+            "role_name": "Онегин",
+            "role_info": "Главный герой оперы"
+        }
+    },
+    {
+        "model": "theater.casting",
+        "pk": 1,
+        "fields": {
+            "actor": 1,
+            "role": "Гамлет",
+            "date": "2024-01-15",
+            "status": "A"
+        }
+    },
+    {
+        "model": "theater.casting",
+        "pk": 2,
+        "fields": {
+            "actor": 2,
+            "role": "Городничий",
+            "date": "2024-01-20",
+            "status": "A"
+        }
+    },
+    {
+        "model": "theater.casting",
+        "pk": 3,
+        "fields": {
+            "actor": 3,
+            "role": "Онегин",
+            "date": "2024-01-25",
+            "status": "P"
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 1,
+        "fields": {
+            "play": 1,
+            "date": "2024-02-01T19:00:00Z",
+            "location": "Большой театр",
+            "ticket_price": "1500.00"
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 2,
+        "fields": {
+            "play": 2,
+            "date": "2024-02-05T19:00:00Z",
+            "location": "Малый театр",
+            "ticket_price": "1200.00"
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 3,
+        "fields": {
+            "play": 3,
+            "date": "2024-02-10T19:00:00Z",
+            "location": "Театр оперы и балета",
+            "ticket_price": "2000.00"
+        }
+    }
+] 

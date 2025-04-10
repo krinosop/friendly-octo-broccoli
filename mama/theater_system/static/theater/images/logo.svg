@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- Фон -->
+    <rect width="500" height="500" fill="transparent"/>
+    
+    <!-- Маска -->
+    <path d="M100 200
+             C100 180, 120 150, 200 150
+             L300 150
+             C380 150, 400 180, 400 200
+             L400 250
+             C400 270, 380 300, 300 300
+             L200 300
+             C120 300, 100 270, 100 250
+             Z" 
+          fill="black"/>
+    
+    <!-- Глаза -->
+    <path d="M150 200
+             L200 220
+             L150 240
+             Z" 
+          fill="white"/>
+    
+    <path d="M350 200
+             L300 220
+             L350 240
+             Z" 
+          fill="white"/>
+</svg> 

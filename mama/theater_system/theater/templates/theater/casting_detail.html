@@ -1,0 +1,65 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}{{ title }} - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="card-title h4 mb-0">{{ title }}</h1>
+                    {% if user.is_staff %}
+                        <div class="btn-group">
+                            <a href="{% url 'casting_update' casting.pk %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Редактировать
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Актер:</div>
+                        <div class="col-md-8">
+                            <a href="{% url 'actor_detail' casting.actor.pk %}">
+                                {{ casting.actor.get_full_name }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Спектакль:</div>
+                        <div class="col-md-8">
+                            <a href="{% url 'play_detail' casting.play.pk %}">
+                                {{ casting.play.title }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Роль:</div>
+                        <div class="col-md-8">{{ casting.role }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Дата кастинга:</div>
+                        <div class="col-md-8">{{ casting.casting_date }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Статус:</div>
+                        <div class="col-md-8">
+                            <span class="badge {% if casting.status == 'approved' %}bg-success
+                                       {% elif casting.status == 'rejected' %}bg-danger
+                                       {% else %}bg-warning{% endif %}">
+                                {{ casting.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'casting_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Назад к списку
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

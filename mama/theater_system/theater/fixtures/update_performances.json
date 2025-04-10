@@ -1,0 +1,57 @@
+[
+    {
+        "model": "theater.performance",
+        "pk": 101,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-05T19:00:00+03:00",
+            "tickets_available": 100,
+            "ticket_price": "1500.00",
+            "actors": [101, 102]
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 102,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-07T19:00:00+03:00",
+            "tickets_available": 100,
+            "ticket_price": "1500.00",
+            "actors": [102, 103]
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 103,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-09T19:00:00+03:00",
+            "tickets_available": 100,
+            "ticket_price": "1500.00",
+            "actors": [101, 103]
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 104,
+        "fields": {
+            "play": 2,
+            "date": "2025-04-12T19:00:00+03:00",
+            "tickets_available": 100,
+            "ticket_price": "2000.00",
+            "actors": [101, 102]
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 105,
+        "fields": {
+            "play": 2,
+            "date": "2025-04-14T19:00:00+03:00",
+            "tickets_available": 100,
+            "ticket_price": "2000.00",
+            "actors": [102, 103]
+        }
+    }
+] 

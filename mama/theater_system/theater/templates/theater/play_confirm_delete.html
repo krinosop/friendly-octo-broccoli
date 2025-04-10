@@ -1,0 +1,26 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}Удаление спектакля - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Удаление спектакля</h1>
+            <p class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                Вы уверены, что хотите удалить спектакль "{{ play.title }}"?
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Удалить
+                </button>
+                <a href="{% url 'play_detail' play.pk %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Отмена
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

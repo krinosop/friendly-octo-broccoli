@@ -1,0 +1,139 @@
+{% extends 'theater/base.html' %}
+{% load static %}
+
+{% block title %}Статистика - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Статистика театра</h1>
+
+    <div class="row">
+        <!-- Общая статистика -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Общая информация</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h3 class="display-4">{{ total_plays }}</h3>
+                            <p>Спектаклей</p>
+                        </div>
+                        <div class="col-6">
+                            <h3 class="display-4">{{ total_actors }}</h3>
+                            <p>Актеров</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика представлений -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Представления</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h3 class="display-4">{{ total_performances }}</h3>
+                            <p>Всего представлений</p>
+                        </div>
+                        <div class="col-6">
+                            <h3 class="display-4">{{ upcoming_performances }}</h3>
+                            <p>Предстоящих</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="lead">Средняя цена билета: {{ avg_ticket_price|floatformat:2 }} ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Популярные спектакли -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Топ спектаклей</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for play in popular_plays %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ play.play__title }}
+                            <span class="badge bg-primary rounded-pill">{{ play.count }} представлений</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Активные актеры -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5 class="card-title mb-0">Самые активные актеры</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for actor in active_actors %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ actor.first_name }} {{ actor.last_name }}
+                            <span class="badge bg-warning text-dark rounded-pill">{{ actor.performance_count }} выступлений</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика по жанрам -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">Спектакли по жанрам</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for genre in plays_by_genre %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            {% if genre.genre == 'D' %}Драма
+                            {% elif genre.genre == 'C' %}Комедия
+                            {% elif genre.genre == 'T' %}Трагедия
+                            {% else %}{{ genre.genre }}{% endif %}
+                            <span class="badge bg-secondary rounded-pill">{{ genre.count }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика по кастингам -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">Кастинги по статусу</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for casting in castings_by_status %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            {% if casting.status == 'pending' %}На рассмотрении
+                            {% elif casting.status == 'approved' %}Утверждены
+                            {% elif casting.status == 'rejected' %}Отклонены
+                            {% else %}{{ casting.status }}{% endif %}
+                            <span class="badge bg-danger rounded-pill">{{ casting.count }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

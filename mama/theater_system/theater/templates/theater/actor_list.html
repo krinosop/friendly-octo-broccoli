@@ -1,0 +1,68 @@
+{% extends 'theater/base_list.html' %}
+{% load static %}
+
+{% block title %}Актеры{% endblock %}
+
+{% block list_title %}Актеры{% endblock %}
+
+{% block add_url %}{% url 'actor_create' %}{% endblock %}
+
+{% block add_button_text %}Добавить актера{% endblock %}
+
+{% block filters %}
+<div class="filters mb-4">
+    <form method="get" class="row g-3">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Поиск по имени" value="{{ request.GET.search }}">
+        </div>
+        <div class="col-md-4">
+            <select name="gender" class="form-select">
+                <option value="">Все</option>
+                <option value="M" {% if selected_gender == 'M' %}selected{% endif %}>Мужской</option>
+                <option value="F" {% if selected_gender == 'F' %}selected{% endif %}>Женский</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            <a href="{% url 'actor_list' %}" class="btn btn-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block list_content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for actor in actors %}
+    <div class="col">
+        <div class="card h-100">
+            {% if actor.photo %}
+            <img src="{{ actor.photo.url }}" class="card-img-top" alt="{{ actor.full_name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ actor.full_name }}</h5>
+                <p class="card-text">
+                    <strong>Пол:</strong>
+                    {% if actor.gender == 'M' %}Мужской
+                    {% elif actor.gender == 'F' %}Женский
+                    {% endif %}
+                </p>
+                <p class="card-text"><strong>Дата рождения:</strong> {{ actor.date_of_birth }}</p>
+                <div class="mt-3">
+                    <a href="{% url 'actor_detail' actor.id %}" class="btn btn-primary">Подробнее</a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'actor_update' actor.id %}" class="btn btn-warning">Редактировать</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'actor_delete' actor.id %}" class="btn btn-danger">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Актеры не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

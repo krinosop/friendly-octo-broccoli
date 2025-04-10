@@ -1,0 +1,94 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}{{ actor.first_name }} {{ actor.last_name }} - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="card-title">{{ actor.first_name }} {{ actor.last_name }}</h1>
+                <div>
+                    {% if request.user.is_staff or 'Director' in request.user.groups.all|stringformat:"s" %}
+                        <a href="{% url 'actor_update' actor.pk %}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        <a href="{% url 'actor_delete' actor.pk %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Удалить
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Дата рождения:</strong> {{ actor.date_of_birth|date:"d.m.Y" }}</p>
+                    <p><strong>Пол:</strong> {{ actor.get_gender_display }}</p>
+                    <p><strong>Контактная информация:</strong> {{ actor.contact_info }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Роли актера</h3>
+            {% if actor.actorrole_set.all %}
+                <div class="row">
+                    {% for role in actor.actorrole_set.all %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ role.role_name }}</h5>
+                                    <p class="card-text">
+                                        <strong>Спектакль:</strong> {{ role.play.title }}<br>
+                                        <strong>Режиссер:</strong> {{ role.play.director.first_name }} {{ role.play.director.last_name }}
+                                    </p>
+                                    <a href="{% url 'play_detail' role.play.pk %}" class="btn btn-primary">Подробнее о спектакле</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>У актера пока нет ролей.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Кастинги</h3>
+            {% if actor.castings.all %}
+                <div class="row">
+                    {% for casting in actor.castings.all %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ casting.role }}</h5>
+                                    <p class="card-text">
+                                        {% if casting.play %}
+                                            <strong>Спектакль:</strong> {{ casting.play.title }}<br>
+                                            <strong>Режиссер:</strong> {{ casting.play.director.first_name }} {{ casting.play.director.last_name }}<br>
+                                        {% endif %}
+                                        <strong>Дата:</strong> {{ casting.casting_date|date:"d.m.Y" }}<br>
+                                        <strong>Статус:</strong> {{ casting.get_status_display }}
+                                    </p>
+                                    {% if casting.play %}
+                                        <a href="{% url 'play_detail' casting.play.pk %}" class="btn btn-primary">Подробнее о спектакле</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Нет информации о кастингах.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'actor_list' %}" class="btn btn-secondary">Назад к списку актеров</a>
+</div>
+{% endblock %} 

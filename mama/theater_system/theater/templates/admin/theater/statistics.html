@@ -1,0 +1,128 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}Статистика театра{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Статистика театра</h1>
+    
+    <div class="row">
+        <!-- Общая статистика -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Общая статистика</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Всего спектаклей:</strong> {{ total_plays }}</p>
+                    <p><strong>Всего актеров:</strong> {{ total_actors }}</p>
+                    <p><strong>Всего представлений:</strong> {{ total_performances }}</p>
+                    <p><strong>Предстоящих представлений:</strong> {{ upcoming_performances }}</p>
+                    <p><strong>Средняя цена билета:</strong> {{ avg_ticket_price|floatformat:2 }} руб.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика за последний месяц -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Статистика за последний месяц</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Проведено представлений:</strong> {{ performances_last_month }}</p>
+                    <p><strong>Новых кастингов:</strong> {{ new_castings_last_month }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика по жанрам -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Спектакли по жанрам</h5>
+                </div>
+                <div class="card-body">
+                    {% for genre in plays_by_genre %}
+                    <p><strong>{{ genre.genre }}:</strong> {{ genre.count }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Статистика по кастингам -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning">
+                    <h5 class="card-title mb-0">Статистика кастингов</h5>
+                </div>
+                <div class="card-body">
+                    {% for status in castings_by_status %}
+                    <p><strong>{{ status.status_display }}:</strong> {{ status.count }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Популярные спектакли -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">Самые популярные спектакли</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="list-unstyled">
+                    {% for play in popular_plays %}
+                        <li class="mb-2">
+                            <span class="badge bg-primary me-2">{{ forloop.counter }}</span>
+                            {{ play.play__title }} ({{ play.count }} представлений)
+                        </li>
+                    {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Активные актеры -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">Самые занятые актеры</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="list-unstyled">
+                    {% for actor in active_actors %}
+                        <li class="mb-2">
+                            <span class="badge bg-secondary me-2">{{ forloop.counter }}</span>
+                            {{ actor.first_name }} {{ actor.last_name }} ({{ actor.performance_count }} ролей)
+                        </li>
+                    {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card-header {
+        font-weight: bold;
+    }
+    .card-body p {
+        margin-bottom: 0.75rem;
+    }
+    .badge {
+        font-size: 0.9em;
+        padding: 0.4em 0.6em;
+    }
+    .list-unstyled {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %} 

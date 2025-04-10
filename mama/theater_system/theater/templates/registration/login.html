@@ -1,0 +1,163 @@
+{% extends 'theater/base.html' %}
+{% load static %}
+
+{% block title %}Вход - Театральная система{% endblock title %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 60px);
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 25px;
+        width: 320px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+    }
+
+    .login-header {
+        margin-bottom: 20px;
+    }
+
+    .login-title {
+        color: #2d3748;
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        display: inline-block;
+        width: 260px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        transition: all 0.3s;
+        background: rgba(255, 255, 255, 0.9);
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #7f9dc1;
+        box-shadow: 0 0 0 3px rgba(127, 157, 193, 0.2);
+        outline: none;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 6px;
+        color: #4a5568;
+        font-weight: 500;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .btn-login {
+        width: 260px;
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        background: linear-gradient(135deg, #7f9dc1, #6b8ab0);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .btn-login:hover {
+        background: linear-gradient(135deg, #6b8ab0, #7f9dc1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .alert {
+        width: 260px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 0 auto 15px;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .alert-error {
+        background: #fff5f5;
+        color: #c53030;
+        border: 1px solid #feb2b2;
+    }
+
+    .register-link {
+        margin-top: 15px;
+        font-size: 13px;
+        color: #4a5568;
+    }
+
+    .register-link a {
+        color: #7f9dc1;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .register-link a:hover {
+        color: #6b8ab0;
+        text-decoration: underline;
+    }
+
+    form {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2 class="login-title">Вход в систему</h2>
+        </div>
+
+        {% if form.errors %}
+        <div class="alert alert-error">
+            Неправильное имя пользователя или пароль. Пожалуйста, попробуйте снова.
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="id_username">Имя пользователя</label>
+                <input type="text" name="username" id="id_username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="id_password">Пароль</label>
+                <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn-login">Войти</button>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+
+        <div class="register-link">
+            Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </div>
+    </div>
+</div>
+{% endblock content %} 

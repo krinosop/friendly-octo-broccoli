@@ -1,0 +1,131 @@
+{% extends 'theater/base.html' %}
+{% load static %}
+
+{% block title %}{{ play.title }} - Театральная система{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="image-container" style="height: 400px; background-color: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px;">
+                        {% if play.venue_image %}
+                            <img src="{{ play.venue_image.url }}" class="img-fluid" alt="Место проведения {{ play.title }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        {% else %}
+                            <div class="text-center text-white">
+                                <i class="fas fa-theater-masks fa-4x mb-3"></i>
+                                <p class="mb-0">Изображение отсутствует</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1 class="card-title mb-0">{{ play.title }}</h1>
+                        <div>
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'play_update' play.pk %}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Редактировать
+                                </a>
+                            {% elif 'Director' in request.user.groups.all|stringformat:"s" %}
+                                <a href="{% url 'play_update' play.pk %}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Редактировать
+                                </a>
+                            {% endif %}
+                            {% if request.user.is_superuser %}
+                                <a href="{% url 'play_delete' play.pk %}" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Удалить
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="play-info">
+                        <p><strong>Режиссер:</strong> {{ play.director.first_name }} {{ play.director.last_name }}</p>
+                        <p><strong>Жанр:</strong> {{ play.get_genre_display }}</p>
+                        <p><strong>Длительность:</strong> {{ play.duration }} мин</p>
+                        <p><strong>Описание:</strong></p>
+                        <p class="text-justify">{{ play.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="fas fa-users"></i> Актеры
+                    </h3>
+                    {% if play.actorrole_set.all %}
+                        <ul class="list-group">
+                            {% for role in play.actorrole_set.all %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a href="{% url 'actor_detail' role.actor.pk %}" class="text-decoration-none">
+                                                {{ role.actor.first_name }} {{ role.actor.last_name }}
+                                            </a>
+                                            <br>
+                                            <small class="text-muted">{{ role.role_name }}</small>
+                                        </div>
+                                        <a href="{% url 'actor_detail' role.actor.pk %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> В спектакле пока нет актеров.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-alt"></i> Представления
+                    </h3>
+                    {% if performances %}
+                        <ul class="list-group">
+                            {% for performance in performances %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ performance.date|date:"d.m.Y H:i" }}</strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                Статус: {{ performance.get_status_display }}<br>
+                                                Билеты: {{ performance.tickets_available }}<br>
+                                                Цена: {{ performance.ticket_price }} руб.
+                                            </small>
+                                        </div>
+                                        {% if performance.tickets_available > 0 and performance.status == 'scheduled' %}
+                                            <span class="badge bg-success">Билеты в наличии</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Нет билетов</span>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> Представления пока не запланированы.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'play_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Назад к списку спектаклей
+    </a>
+</div>
+{% endblock %} 

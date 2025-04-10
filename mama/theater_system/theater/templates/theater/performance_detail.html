@@ -1,0 +1,45 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}{{ performance.play.title }} - Представление{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ performance.play.title }}</h2>
+                    <hr>
+                    <div class="performance-info">
+                        <p><strong>Дата и время:</strong> {{ performance.date|date:"d.m.Y H:i" }}</p>
+                        <p><strong>Режиссер:</strong> {{ performance.play.director.first_name }} {{ performance.play.director.last_name }}</p>
+                        <p><strong>Стоимость билета:</strong> {{ performance.ticket_price }} руб.</p>
+                        <p><strong>Доступно билетов:</strong> {{ performance.tickets_available }}</p>
+                        
+                        <h4 class="mt-4">Актерский состав:</h4>
+                        <ul class="list-unstyled">
+                            {% for actor in performance.actors.all %}
+                                <li>{{ actor.first_name }} {{ actor.last_name }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        <h4 class="mt-4">О спектакле:</h4>
+                        <p>{{ performance.play.description }}</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{% url 'performance_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Назад к списку
+                        </a>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'performance_update' performance.pk %}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Редактировать
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

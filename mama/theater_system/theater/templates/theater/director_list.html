@@ -1,0 +1,64 @@
+{% extends 'theater/base_list.html' %}
+{% load static %}
+
+{% block title %}Режиссеры{% endblock %}
+
+{% block list_title %}Режиссеры{% endblock %}
+
+{% block add_url %}{% url 'director_create' %}{% endblock %}
+
+{% block add_button_text %}Добавить режиссера{% endblock %}
+
+{% block filters %}
+<div class="filters mb-4">
+    <form method="get" class="row g-3">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Поиск по имени" value="{{ request.GET.search }}">
+        </div>
+        <div class="col-md-4">
+            <select name="experience" class="form-select">
+                <option value="">Все</option>
+                <option value="1-5" {% if selected_experience == '1-5' %}selected{% endif %}>1-5 лет</option>
+                <option value="6-10" {% if selected_experience == '6-10' %}selected{% endif %}>6-10 лет</option>
+                <option value="11+" {% if selected_experience == '11+' %}selected{% endif %}>Более 10 лет</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            <a href="{% url 'director_list' %}" class="btn btn-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block list_content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for director in directors %}
+    <div class="col">
+        <div class="card h-100">
+            {% if director.photo %}
+            <img src="{{ director.photo.url }}" class="card-img-top" alt="{{ director.full_name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ director.first_name }} {{ director.last_name }}</h5>
+                <p class="card-text"><strong>Опыт работы:</strong> {{ director.years_of_experience }} лет</p>
+                <p class="card-text"><strong>Количество спектаклей:</strong> {{ director.play_set.count }}</p>
+                <div class="mt-3">
+                    <a href="{% url 'director_detail' director.id %}" class="btn btn-primary">Подробнее</a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'director_update' director.id %}" class="btn btn-warning">Редактировать</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'director_delete' director.id %}" class="btn btn-danger">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Режиссеры не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

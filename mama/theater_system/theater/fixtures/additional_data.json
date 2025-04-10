@@ -1,0 +1,80 @@
+[
+    {
+        "model": "theater.actor",
+        "pk": 101,
+        "fields": {
+            "first_name": "Анна",
+            "last_name": "Петрова",
+            "date_of_birth": "1990-05-15",
+            "gender": "F",
+            "contact_info": "+7 (999) 123-45-67"
+        }
+    },
+    {
+        "model": "theater.actor",
+        "pk": 102,
+        "fields": {
+            "first_name": "Михаил",
+            "last_name": "Соколов",
+            "date_of_birth": "1988-08-22",
+            "gender": "M",
+            "contact_info": "+7 (999) 234-56-78"
+        }
+    },
+    {
+        "model": "theater.actor",
+        "pk": 103,
+        "fields": {
+            "first_name": "Елена",
+            "last_name": "Морозова",
+            "date_of_birth": "1995-03-10",
+            "gender": "F",
+            "contact_info": "+7 (999) 345-67-89"
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 101,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-05T19:00:00+03:00",
+            "tickets_available": 100
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 102,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-07T19:00:00+03:00",
+            "tickets_available": 100
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 103,
+        "fields": {
+            "play": 1,
+            "date": "2025-04-09T19:00:00+03:00",
+            "tickets_available": 100
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 104,
+        "fields": {
+            "play": 2,
+            "date": "2025-04-12T19:00:00+03:00",
+            "tickets_available": 100
+        }
+    },
+    {
+        "model": "theater.performance",
+        "pk": 105,
+        "fields": {
+            "play": 2,
+            "date": "2025-04-14T19:00:00+03:00",
+            "tickets_available": 100
+        }
+    }
+] 

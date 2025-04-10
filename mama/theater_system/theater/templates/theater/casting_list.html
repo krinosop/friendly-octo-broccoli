@@ -1,0 +1,78 @@
+{% extends 'theater/base_list.html' %}
+{% load static %}
+
+{% block title %}Кастинги{% endblock %}
+
+{% block list_title %}Кастинги{% endblock %}
+
+{% block add_url %}{% url 'casting_create' %}{% endblock %}
+
+{% block add_button_text %}Добавить кастинг{% endblock %}
+
+{% block filters %}
+<div class="filters mb-4">
+    <form method="get" class="row g-3">
+        <div class="col-md-3">
+            <select name="play" class="form-select">
+                <option value="">Все спектакли</option>
+                {% for play in plays %}
+                <option value="{{ play.id }}" {% if selected_play|stringformat:"s" == play.id|stringformat:"s" %}selected{% endif %}>
+                    {{ play.title }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Все статусы</option>
+                <option value="pending" {% if selected_status == 'pending' %}selected{% endif %}>Ожидает</option>
+                <option value="approved" {% if selected_status == 'approved' %}selected{% endif %}>Одобрен</option>
+                <option value="rejected" {% if selected_status == 'rejected' %}selected{% endif %}>Отклонен</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="date" class="form-control" value="{{ selected_date|default:'' }}">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            <a href="{% url 'casting_list' %}" class="btn btn-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block list_content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for casting in castings %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ casting.role }}</h5>
+                <p class="card-text"><strong>Актер:</strong> {{ casting.actor.first_name }} {{ casting.actor.last_name }}</p>
+                <p class="card-text"><strong>Спектакль:</strong> {{ casting.play.title }}</p>
+                <p class="card-text"><strong>Статус:</strong> 
+                    {% if casting.status == 'pending' %}Ожидает
+                    {% elif casting.status == 'approved' %}Одобрен
+                    {% elif casting.status == 'rejected' %}Отклонен
+                    {% endif %}
+                </p>
+                <p class="card-text"><strong>Дата кастинга:</strong> {{ casting.casting_date }}</p>
+                <div class="mt-3">
+                    <a href="{% url 'casting_detail' casting.id %}" class="btn btn-primary">Подробнее</a>
+                    {% if user.is_staff or user.groups.all.0.name == 'Director' %}
+                    <a href="{% url 'casting_update' casting.id %}" class="btn btn-warning">Редактировать</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'casting_delete' casting.id %}" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот кастинг?')">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Кастинги не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

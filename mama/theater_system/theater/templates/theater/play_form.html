@@ -1,0 +1,132 @@
+{% extends 'theater/base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактировать спектакль
+    {% else %}
+        Добавить спектакль
+    {% endif %}
+    - Театральная система
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">
+                {% if form.instance.pk %}
+                    Редактировать спектакль
+                {% else %}
+                    Добавить спектакль
+                {% endif %}
+            </h1>
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Пожалуйста, исправьте ошибки в форме.
+                </div>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data" class="mt-4">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Название</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.director.id_for_label }}" class="form-label">Режиссер</label>
+                            {{ form.director }}
+                            {% if form.director.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.director.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.genre.id_for_label }}" class="form-label">Жанр</label>
+                            {{ form.genre }}
+                            {% if form.genre.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.genre.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.duration.id_for_label }}" class="form-label">Продолжительность (минут)</label>
+                            {{ form.duration }}
+                            {% if form.duration.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.duration.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">Описание</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.description.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.venue_image.id_for_label }}" class="form-label">Изображение места</label>
+                            {% if form.instance.venue_image %}
+                                <div class="mb-2">
+                                    <img src="{{ form.instance.venue_image.url }}" alt="Текущее изображение" class="img-thumbnail" style="max-height: 200px;">
+                                </div>
+                            {% endif %}
+                            <div class="input-group">
+                                {{ form.venue_image }}
+                            </div>
+                            {% if form.venue_image.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.venue_image.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        {% if form.instance.pk %}
+                            <i class="fas fa-save"></i> Сохранить изменения
+                        {% else %}
+                            <i class="fas fa-plus"></i> Добавить спектакль
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'play_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Добавляем классы Bootstrap к полям формы
+    document.addEventListener('DOMContentLoaded', function() {
+        const formControls = document.querySelectorAll('input:not([type="file"]), select, textarea');
+        formControls.forEach(function(element) {
+            element.classList.add('form-control');
+        });
+        
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(function(element) {
+            element.classList.add('form-control');
+        });
+    });
+</script>
+{% endblock %}
+
+{% endblock %} 

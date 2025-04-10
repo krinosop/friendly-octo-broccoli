@@ -1,0 +1,63 @@
+{% extends 'theater/base.html' %}
+
+{% block title %}Главная - Театральная система{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Добро пожаловать в Театральную систему</h1>
+        <p class="lead">Управление занятостью актеров театра</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Режиссеры</h5>
+                <p class="card-text">Управление режиссерами театра</p>
+                <a href="{% url 'director_list' %}" class="btn btn-primary">Перейти к режиссерам</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Спектакли</h5>
+                <p class="card-text">Управление спектаклями</p>
+                <a href="{% url 'play_list' %}" class="btn btn-primary">Перейти к спектаклям</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Актеры</h5>
+                <p class="card-text">Управление актерами</p>
+                <a href="{% url 'actor_list' %}" class="btn btn-primary">Перейти к актерам</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Кастинги</h5>
+                <p class="card-text">Управление кастингами</p>
+                <a href="{% url 'casting_list' %}" class="btn btn-primary">Перейти к кастингам</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Представления</h5>
+                <p class="card-text">Управление представлениями</p>
+                <a href="{% url 'performance_list' %}" class="btn btn-primary">Перейти к представлениям</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
